@@ -22,6 +22,7 @@ import { MdCheckCircle, MdSettings } from 'react-icons/all';
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import { Divider } from '@chakra-ui/react'
 import * as axios from 'axios';
+import { Input } from '@chakra-ui/react'
 
 let arr = ["firstContract", "secondContract", "thirdContract"];
 let arr_short = ["F", "S", "T"];
@@ -33,6 +34,7 @@ const App = () => {
   let [link, setLink] = useState('No link, press deploy/mint and then click to deploy/mint');
   let [contracts, setContracts] = useState([]);
   let [nfts, setNFTs] = useState([]);
+  let [wallet, setWallet] = useState("0xe45Ba4475C256d713B6A20C7d2552D3793e37854")
 
   const fecthContracts = () => {
     axios.get("https://thentic.tech/api/contracts", {params: {
@@ -111,7 +113,7 @@ const App = () => {
           },
         ],
       }),
-      to: "0xe45Ba4475C256d713B6A20C7d2552D3793e37854"
+      to: wallet
     })
       .then(function (response) {
         setLink(response.data.transaction_url)
@@ -131,6 +133,7 @@ const App = () => {
             <Text>
               Thentic <Code fontSize="xl">API</Code> example
             </Text>
+
             <Link
               color="teal.500"
               href={link}
@@ -140,6 +143,8 @@ const App = () => {
             >
               {link}
             </Link>
+            <Input placeholder='Your wallet' />
+            <Button colorScheme='blue' onClick={setWallet.bind(this)}>Set wallet</Button>
             <Button colorScheme='blue' onClick={fecthContracts.bind(this)}>Fetch contracts</Button>
             <Button colorScheme='blue' onClick={showNFTs.bind(this)}>Show NFTs</Button>
             <List spacing={3}>
